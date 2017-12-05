@@ -31,17 +31,50 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-	
+
 	<developers>
-	   <developer>
-	       <name>zenfery</name>
-	       <email>zenfery@gmail.com</email>
-	       <organization>ChinaCache</organization>
-	       <organizationUrl>http://www.chinacache.com/</organizationUrl>
-	   </developer>
+		<developer>
+			<name>zenfery</name>
+			<email>zenfery@gmail.com</email>
+			<organization>ChinaCache</organization>
+			<organizationUrl>http://www.chinacache.com/</organizationUrl>
+		</developer>
 	</developers>
-	
+
 	<scm>
-	   
+
 	</scm>
+
+	<!-- distribution -->
+	<distributionManagement>
+		<repository>
+			<id>portal</id>
+			<url>http://nexus.dev.chinacache.com/content/repositories/portal/</url>
+		</repository>
+		<snapshotRepository>
+			<id>portal-snapshots</id>
+			<url>http://nexus.dev.chinacache.com/content/repositories/portal-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<build>
+		<plugins>
+			<!-- source distribute -->
+			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<attach>true</attach>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
