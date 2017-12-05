@@ -1,0 +1,27 @@
+spring:
+  datasource:
+    name: "mds"
+    url: "jdbc:mysql://127.0.0.1:3306/mds"
+    username: "root"
+    password: "mysql"
+    driver-class-name: "com.mysql.jdbc.Driver"
+    validation-query: "select 1 from dual"
+  mds:
+    enabled: true
+    abc: "test-value"
+    datasources:
+      -
+        name: mds1
+        url: "jdbc:mysql://127.0.0.1:3306/mds1"
+        username: "root"
+        password: "mysql"
+        driver-class-name: "com.mysql.jdbc.Driver"
+        validation-query: "select 1 from dual"
+
+logging:
+  level:
+    org.springframework:
+      boot: DEBUG
+      transaction: DEBUG
+    cc.zenfery.boot.autoconfigure.mds: DEBUG
+

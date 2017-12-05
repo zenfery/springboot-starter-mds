@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cc.zenfery</groupId>
+	<artifactId>springboot-starter-mds-parent</artifactId>
+	<version>0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>springboot-multi-ds-starter-parent</name>
+	<description>springboot-multi-ds-starter parent project</description>
+
+	<url>https://github.com/zenfery/springboot-multi-ds-starter</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.4.RELEASE</version>
+	</parent>
+
+	<modules>
+		<module>springboot-multi-ds-starter</module>
+		<module>springboot-multi-ds-starter-sample</module>
+	</modules>
+</project>
