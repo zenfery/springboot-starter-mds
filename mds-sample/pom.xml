@@ -6,7 +6,7 @@
     <version>0.1-SNAPSHOT</version>
   </parent>
   <artifactId>springboot-starter-mds-sample</artifactId>
-  
+
   <dependencies>
     <dependency>
         <groupId>cc.zenfery</groupId>

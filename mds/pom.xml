@@ -8,7 +8,7 @@
 	</parent>
 	<artifactId>springboot-starter-mds</artifactId>
 	<name>SpringBoot-Multi-DataSource</name>
-	
+
 	<properties>
 	   <springboot.version>1.4.4.RELEASE</springboot.version>
 	</properties>

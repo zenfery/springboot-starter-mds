@@ -5,15 +5,15 @@
 	<artifactId>springboot-starter-mds-parent</artifactId>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>springboot-multi-ds-starter-parent</name>
-	<description>springboot-multi-ds-starter parent project</description>
+	<name>mds-parent</name>
+	<description>springboot-starter-mds parent project</description>
 
-	<url>https://github.com/zenfery/springboot-multi-ds-starter</url>
+	<url>https://github.com/zenfery/springboot-starter-mds</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -24,4 +24,24 @@
 		<module>springboot-multi-ds-starter</module>
 		<module>springboot-multi-ds-starter-sample</module>
 	</modules>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	
+	<developers>
+	   <developer>
+	       <name>zenfery</name>
+	       <email>zenfery@gmail.com</email>
+	       <organization>ChinaCache</organization>
+	       <organizationUrl>http://www.chinacache.com/</organizationUrl>
+	   </developer>
+	</developers>
+	
+	<scm>
+	   
+	</scm>
 </project>
