@@ -21,8 +21,8 @@
 	</parent>
 
 	<modules>
-		<module>springboot-multi-ds-starter</module>
-		<module>springboot-multi-ds-starter-sample</module>
+		<module>mds</module>
+		<module>mds-sample</module>
 	</modules>
 
 	<licenses>
