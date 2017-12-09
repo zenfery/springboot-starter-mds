@@ -1,11 +1,14 @@
 # MDS : springboot-starter-mds
 
-## Overview - 概述
+## 1. Overview - 概述
+------------------------
+
 Springboot multiple datasource.
 
 基于 Springboot 的多数据源支持。
 
-## User Guide - 使用指南
+## 2. User Guide - 使用指南
+--------------------------
 
 ### Get Package - 获取安装包
 
@@ -36,10 +39,16 @@ You can find the result jar in `mds/target` after build. 构建完成后，jar�
 ```
 
 ### Config application.yml or application.properties - springboot 配置文件
-- spring.datasource: Default datasource - 默认数据源配置
-- spring.mds : extend/more/multi datasource - 扩展数据源
-- spring.mds.enabled : Whether enabled - 是否开启，默认 true 开启。
-- spring.mds.datasources[].name : Name of datasource - 指定数据源名称。
+
+配置项含义说明
+
+| Config Item (配置项) | Description (描述) |
+| ------------------- | ------------------|
+| spring.datasource   | Default datasource (默认数据源配置) |
+| spring.mds          | Multi datasource (更多的数据源配置) |
+| spring.mds.enabled   | Whether enabled - 是否开启，默认 true 开启。 |
+| spring.mds.datasources[].name   | Name of datasource - 指定数据源名称。 |
+
 
 Config Example - 配置示例：
 - application.yml
@@ -65,7 +74,7 @@ Config Example - 配置示例：
 ```
 
 ### Coding - 编写代码
-If you use the default DataSource `mds`, do nothings for original code. If you want to use the DataSource of the setting `spring.mds.datasources`, use the Annotation `Mds` on class or method, Such as `@Mds("mds1")`; the default `mds` DataSource will be used when you set annotation like `@Mds()` or `@Mds("")`.
+If you use the default DataSource `mds`, nothing need to do for original code. If you want to use the DataSource of the setting `spring.mds.datasources`, use the Annotation `Mds` on class or method, Such as `@Mds("mds1")`; the default `mds` DataSource will be used when you set annotation like `@Mds()` or `@Mds("")`.
 
 如果使用数据源 `mds` ,原来的代码将不需要做任何变动，保持原样即可；`springboot-starter-mds` 会帮你处理。如果使用`spring.mds.datasources` 指定的数据源，代码中需要在使用的 **类** 或 **方法** 上使用注解`@Mds("mds1")`；若使用`@Mds("")`或`@Mds()`，将会启用默认的数据源 `mds`。
 
