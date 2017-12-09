@@ -1,14 +1,12 @@
 # MDS : springboot-starter-mds
 
 ## 1. Overview - 概述
-------------------------
 
 Springboot multiple datasource.
 
 基于 Springboot 的多数据源支持。
 
 ## 2. User Guide - 使用指南
---------------------------
 
 ### Get Package - 获取安装包
 
