@@ -50,26 +50,26 @@ You can find the result jar in `mds/target` after build. 构建完成后，jar�
 
 Config Example - 配置示例：
 - application.yml
-``` yaml
-  spring:
-    datasource:
-      name: "mds"
-      url: "jdbc:mysql://127.0.0.1:3306/mds"
-      username: "root"
-      password: "mysql"
-      driver-class-name: "com.mysql.jdbc.Driver"
-      validation-query: "select 1 from dual"
-    mds:
-      enabled: true
-      datasources:
-        -
-          name: mds1
-          url: "jdbc:mysql://127.0.0.1:3306/mds1"
+    ``` yaml
+      spring:
+        datasource:
+          name: "mds"
+          url: "jdbc:mysql://127.0.0.1:3306/mds"
           username: "root"
           password: "mysql"
           driver-class-name: "com.mysql.jdbc.Driver"
           validation-query: "select 1 from dual"
-```
+        mds:
+          enabled: true
+          datasources:
+            -
+              name: mds1
+              url: "jdbc:mysql://127.0.0.1:3306/mds1"
+              username: "root"
+              password: "mysql"
+              driver-class-name: "com.mysql.jdbc.Driver"
+              validation-query: "select 1 from dual"
+    ```
 
 - application.properties
 
@@ -96,7 +96,7 @@ If you use the default DataSource `mds`, nothing need to do for original code. I
 如果使用数据源 `mds` ,原来的代码将不需要做任何变动，保持原样即可；`springboot-starter-mds` 会帮你处理。如果使用`spring.mds.datasources` 指定的数据源，代码中需要在使用的 **类** 或 **方法** 上使用注解`@Mds("mds1")`；若使用`@Mds("")`或`@Mds()`，将会启用默认的数据源 `mds`。
 
 - Use Annotaion @Mds - 使用注解@Mds
-``` java
+  ``` java
   @Service
   public class TestServiceImpl implements TestService {
 
@@ -115,7 +115,7 @@ If you use the default DataSource `mds`, nothing need to do for original code. I
       }
 
   }
-```
+  ```
 
 - Use Customized Annotation - 使用自定义注解
   - Customized Annotation - 自定义注解
