@@ -71,6 +71,25 @@ Config Example - 配置示例：
           validation-query: "select 1 from dual"
 ```
 
+- application.properties
+
+    ``` bash
+  spring.datasource.name=mds
+  spring.datasource.url=jdbc:mysql://127.0.0.1:3306/mds
+  spring.datasource.username=root
+  spring.datasource.password=mysql
+  spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+  spring.datasource.validation-query=select 1 from dual
+
+  spring.mds.enabled=true
+  spring.mds.datasources[0].name=mds1
+  spring.mds.datasources[0].url=jdbc:mysql://127.0.0.1:3306/mds1
+  spring.mds.datasources[0].username=root
+  spring.mds.datasources[0].password=mysql
+  spring.mds.datasources[0].driver-class-name=com.mysql.jdbc.Driver
+  spring.mds.datasources[0].validation-query=select 1 from dual
+  ```
+
 ### Coding - 编写代码
 If you use the default DataSource `mds`, nothing need to do for original code. If you want to use the DataSource of the setting `spring.mds.datasources`, use the Annotation `Mds` on class or method, Such as `@Mds("mds1")`; the default `mds` DataSource will be used when you set annotation like `@Mds()` or `@Mds("")`.
 
@@ -97,3 +116,22 @@ If you use the default DataSource `mds`, nothing need to do for original code. I
 
   }
 ```
+
+- Use Customized Annotation - 使用自定义注解
+  - Customized Annotation - 自定义注解
+    ``` java
+    @Target({ ElementType.METHOD, ElementType.TYPE })
+    @Retention(RetentionPolicy.RUNTIME)
+    @Mds("mds1")
+    public @interface Mds1DataSource {
+
+    }
+    ```
+  - Use in Code
+    ``` java
+    @Mds1DataSource
+    @Override
+    public String test1() {
+        return testDao.test();
+    }
+    ```
