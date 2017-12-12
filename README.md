@@ -91,7 +91,7 @@ Config Example - 配置示例：
   ```
 
 ### Coding - 编写代码
-If you use the default DataSource `mds`, nothing need to do for original code. If you want to use the DataSource of the setting `spring.mds.datasources`, use the Annotation `Mds` on class or method, Such as `@Mds("mds1")`; the default `mds` DataSource will be used when you set annotation like `@Mds()` or `@Mds("")`. Both class and method set the `@Mds`, it will to use it on the method.
+If the default DataSource `mds` is used, nothing need to do for original code. If you want to use the DataSource of the setting `spring.mds.datasources`, use the Annotation `Mds` on class or method, Such as `@Mds("mds1")`; the default `mds` DataSource will be used when you set annotation like `@Mds()` or `@Mds("")`. Both class and method set the `@Mds`, it will to use it on the method.
 
 如果使用默认数据源 `mds` ,原来的代码将不需要做任何变动，保持原样即可；`springboot-starter-mds` 会帮你处理。如果使用`spring.mds.datasources` 指定的数据源，代码中需要在使用的 **类** 或 **方法** 上使用注解`@Mds("mds1")`；若使用`@Mds("")`或`@Mds()`，将会启用默认的数据源 `mds`。 若类 和 方法上均使用了 `@Mds`, 方法上的将会起作用。
 
