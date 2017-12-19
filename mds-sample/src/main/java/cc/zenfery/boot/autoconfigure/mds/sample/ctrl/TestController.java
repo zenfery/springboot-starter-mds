@@ -31,6 +31,11 @@ public class TestController {
         return testService.test1();
     }
 
+    @RequestMapping(value = "/test-anno-db", method = RequestMethod.GET)
+    public String testAnnotationDb() {
+        return testAnnotationService.test();
+    }
+
     @RequestMapping(value = "/test-anno-db1", method = RequestMethod.GET)
     public String testAnnotationDb1() {
         return testAnnotationService.test1();

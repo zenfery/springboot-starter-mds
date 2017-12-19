@@ -36,7 +36,7 @@ public class MdsAdvice implements MethodInterceptor, Ordered {
         if (log.isDebugEnabled()) {
             log.debug(" ==> Multi DataSource advice execute.");
         }
-        Mds mds = MdsUtils.findMdsAnnotation(invocationMethod, invocation.getClass());
+        Mds mds = MdsUtils.findMdsAnnotation(invocationMethod, invocation.getThis().getClass());
         String currentDataSourceName = MdsNameHolder.getDsname();
         String currentSettingDataSourceName;
         if (mds != null) {
