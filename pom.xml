@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cc.zenfery</groupId>
 	<artifactId>springboot-starter-mds-parent</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>mds-parent</name>
 	<description>springboot-starter-mds parent project</description>
@@ -36,30 +36,34 @@
 		<developer>
 			<name>zenfery</name>
 			<email>zenfery@gmail.com</email>
-			<organization>ChinaCache</organization>
-			<organizationUrl>http://www.chinacache.com/</organizationUrl>
+			<organization>Zenfery</organization>
+			<organizationUrl>https://blog.zenfery.cc</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
-
+		<connection>scm:git:https://github.com/zenfery/springboot-starter-mds.git</connection>
+		<developerConnection>scm:git:https://github.com/zenfery/springboot-starter-mds.gitdeveloperConnection</developerConnection>
+		<url>https://github.com/zenfery/springboot-starter-mds</url>
+		<tag>${project.version}</tag>
 	</scm>
 
 	<!-- distribution -->
 	<distributionManagement>
-		<repository>
-			<id>portal</id>
-			<url>http://nexus.dev.chinacache.com/content/repositories/portal/</url>
-		</repository>
 		<snapshotRepository>
-			<id>portal-snapshots</id>
-			<url>http://nexus.dev.chinacache.com/content/repositories/portal-snapshots/</url>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
 		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<name>Maven Central Staging Repository</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
 	</distributionManagement>
 
 	<build>
 		<plugins>
-			<!-- source distribute -->
+			<!-- source distribute
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.1</version>
@@ -71,6 +75,57 @@
 						<phase>compile</phase>
 						<goals>
 							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+     -->
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.3</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
 						</goals>
 					</execution>
 				</executions>
