@@ -35,6 +35,9 @@ You can find the result jar in `mds/target` after build. 构建完成后，jar�
     <version>0.1-SNAPSHOT</version>
   </dependency>
 ```
+    > If you can not find the artifact from your private maven repository, please check your central proxy address; public repository group https://oss.sonatype.org/content/groups/public contains release and snapshot artifact.
+
+    > 如果搭建了 maven 私服，但是在私服中找不到相应的构建包，建议检查一下私服代理的中央仓库地址是否正确；公共仓库地址 https://oss.sonatype.org/content/groups/public 包含发布包和快照包。
 
 ### Config application.yml or application.properties - springboot 配置文件
 
@@ -51,24 +54,24 @@ You can find the result jar in `mds/target` after build. 构建完成后，jar�
 Config Example - 配置示例：
 - application.yml
     ``` yaml
-      spring:
-        datasource:
-          name: "mds"
-          url: "jdbc:mysql://127.0.0.1:3306/mds"
+  spring:
+    datasource:
+      name: "mds"
+      url: "jdbc:mysql://127.0.0.1:3306/mds"
+      username: "root"
+      password: "mysql"
+      driver-class-name: "com.mysql.jdbc.Driver"
+      validation-query: "select 1 from dual"
+    mds:
+      enabled: true
+      datasources:
+        -
+          name: mds1
+          url: "jdbc:mysql://127.0.0.1:3306/mds1"
           username: "root"
           password: "mysql"
           driver-class-name: "com.mysql.jdbc.Driver"
           validation-query: "select 1 from dual"
-        mds:
-          enabled: true
-          datasources:
-            -
-              name: mds1
-              url: "jdbc:mysql://127.0.0.1:3306/mds1"
-              username: "root"
-              password: "mysql"
-              driver-class-name: "com.mysql.jdbc.Driver"
-              validation-query: "select 1 from dual"
     ```
 
 - application.properties
