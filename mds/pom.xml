@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>cc.zenfery</groupId>
 		<artifactId>springboot-starter-mds-parent</artifactId>
-		<version>0.1.1</version>
+		<version>0.1.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>springboot-starter-mds</artifactId>
 	<name>SpringBoot-Multi-DataSource</name>

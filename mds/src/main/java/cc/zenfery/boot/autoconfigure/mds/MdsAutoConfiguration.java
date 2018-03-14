@@ -13,15 +13,10 @@ import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.PointcutAdvisor;
 import org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor;
-import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +29,7 @@ import cc.zenfery.boot.autoconfigure.mds.annotation.Mds;
 import cc.zenfery.boot.autoconfigure.mds.aop.MdsAdvice;
 import cc.zenfery.boot.autoconfigure.mds.aop.MdsAnnotationMethodMatcher;
 import cc.zenfery.boot.autoconfigure.mds.aop.MdsPointcut;
+import cc.zenfery.boot.autoconfigure.mds.tools.MdsConfigurationUtils;
 
 /**
  * Multi DataSource AutoConfiguration
@@ -41,10 +37,11 @@ import cc.zenfery.boot.autoconfigure.mds.aop.MdsPointcut;
  * @author zenfery
  *
  */
-@EnableConfigurationProperties(MdsProperties.class)
+@EnableConfigurationProperties({ MdsProperties.class, SingleDataSourceProperties.class })
 @ConditionalOnMissingBean(MdsAutoConfiguration.class)
 @ConditionalOnProperty(prefix = MdsProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
-@AutoConfigureAfter(DataSourceAutoConfiguration.class)
+// @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+// @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 // @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Configuration
 @CommonsLog
@@ -54,7 +51,7 @@ public class MdsAutoConfiguration {
     private ApplicationContext applicationContext;
 
     @Autowired
-    private DataSourceProperties dataSourceProperties;
+    private SingleDataSourceProperties singleDataSourceProperties;
 
     @Autowired
     private MdsProperties mdsProperties;
@@ -70,49 +67,68 @@ public class MdsAutoConfiguration {
         Map<Object, Object> dataSourceMap = null;
 
         // => fetch the default DataSource from Spring Context
-        Map<String, DataSource> dataSourcesInIOC = BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext,
-                DataSource.class);
-        if (dataSourcesInIOC != null && dataSourcesInIOC.size() > 1) {
-            String errorMsg = "config for [spring.datasource] is not only one.";
-            log.error(errorMsg);
-            throw new RuntimeException(errorMsg);
+        /*
+         * Map<String, DataSource> dataSourcesInIOC =
+         * BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext,
+         * DataSource.class); if (dataSourcesInIOC != null &&
+         * dataSourcesInIOC.size() > 1) { String errorMsg =
+         * "config for [spring.datasource] is not only one.";
+         * log.error(errorMsg); throw new RuntimeException(errorMsg); } if
+         * (dataSourcesInIOC != null && dataSourcesInIOC.size() == 1) { if
+         * (dataSourceMap == null) { dataSourceMap = new HashMap<Object,
+         * Object>(); } defaultDataSource =
+         * dataSourcesInIOC.get(dataSourceProperties.getName());
+         * dataSourceMap.put(dataSourceProperties.getName(), defaultDataSource);
+         * } else { mdsProperties.getDatasources().add(dataSourceProperties); }
+         */
+        /*
+         * DataSource dataSourceInIOC = null; if
+         * (this.applicationContext.getBeanNamesForType(DataSource.class, false,
+         * false).length > 0) { dataSourceInIOC =
+         * this.applicationContext.getBean(DataSource.class); } else { log.warn(
+         * "!!! The DataSource of prefix(spring.datasource) is not given..."); }
+         * 
+         * if (dataSourceInIOC != null) { if (dataSourceMap == null) {
+         * dataSourceMap = new HashMap<Object, Object>(); } defaultDataSource =
+         * dataSourceInIOC; dataSourceMap.put(dataSourceProperties.getName(),
+         * defaultDataSource); }
+         */
+        // => Create default DataSource
+        if (MdsConfigurationUtils.isAvailable(singleDataSourceProperties)) {
+            defaultDataSource = MdsConfigurationUtils.crateDataSource(singleDataSourceProperties);
         }
-        if (dataSourcesInIOC != null && dataSourcesInIOC.size() == 1) {
+
+        if (defaultDataSource != null) {
             if (dataSourceMap == null) {
                 dataSourceMap = new HashMap<Object, Object>();
             }
-            defaultDataSource = dataSourcesInIOC.get(dataSourceProperties.getName());
-            dataSourceMap.put(dataSourceProperties.getName(), defaultDataSource);
-        } else {
-            mdsProperties.getDatasources().add(dataSourceProperties);
+            dataSourceMap.put(singleDataSourceProperties.getName(), defaultDataSource);
         }
 
-        // => create multi DataSource
-        List<DataSourceProperties> dataSources = mdsProperties.getDatasources();
+        // => Create multi DataSource
+        List<SingleDataSourceProperties> dataSources = mdsProperties.getDatasources();
         if (!dataSources.isEmpty()) {
 
             if (dataSourceMap == null) {
                 dataSourceMap = new HashMap<Object, Object>(dataSources.size());
             }
 
-            for (DataSourceProperties dsp : dataSources) {
-                DataSourceBuilder builder = DataSourceBuilder.create(dsp.getClassLoader())
-                        .driverClassName(dsp.getDriverClassName()).url(dsp.getUrl()).username(dsp.getUsername())
-                        .password(dsp.getPassword());
-                if (dsp.getType() != null) {
-                    builder.type(dsp.getType());
-                }
-                DataSource dataSource = builder.build();
-                if (dsp.getName() != null && dataSourceProperties.getName() != null
-                        && dsp.getName().equals(dataSourceProperties.getName())) {
+            for (int i = 0; i < dataSources.size(); i++) {
+                SingleDataSourceProperties dsp = dataSources.get(i);
+
+                DataSource dataSource = MdsConfigurationUtils.crateDataSource(dsp);
+
+                // set default datasource
+                if (defaultDataSource == null && i == 0) {
                     defaultDataSource = dataSource;
                 }
+
                 dataSourceMap.put(dsp.getName(), dataSource);
             }
 
         }
 
-        // new MdsRoutingDataSource
+        // => new MdsRoutingDataSource
         if (dataSourceMap != null && !dataSourceMap.isEmpty()) {
             mdsRoutingDataSource = new MdsRoutingDataSource();
             mdsRoutingDataSource.setTargetDataSources(dataSourceMap);
@@ -129,7 +145,7 @@ public class MdsAutoConfiguration {
     public MethodInterceptor mdsAdvice() {
         MdsAdvice dataSourceAdvice = new MdsAdvice();
         dataSourceAdvice.setOrder(Ordered.LOWEST_PRECEDENCE);
-        dataSourceAdvice.setDefaultDataSourceName(dataSourceProperties.getName());
+        dataSourceAdvice.setDefaultDataSourceName(singleDataSourceProperties.getName());
         return dataSourceAdvice;
     }
 

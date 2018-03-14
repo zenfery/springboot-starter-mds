@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = MdsProperties.PREFIX)
@@ -21,13 +20,13 @@ public class MdsProperties implements BeanClassLoaderAware {
 
     private ClassLoader classLoader;
 
-    private List<DataSourceProperties> datasources = new ArrayList<DataSourceProperties>();
+    private List<SingleDataSourceProperties> datasources = new ArrayList<SingleDataSourceProperties>();
 
     @Override
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
         if (!datasources.isEmpty()) {
-            for (DataSourceProperties dataSource : datasources) {
+            for (SingleDataSourceProperties dataSource : datasources) {
                 dataSource.setBeanClassLoader(classLoader);
             }
         }
