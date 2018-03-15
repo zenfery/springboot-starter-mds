@@ -6,6 +6,8 @@ Springboot multiple datasource.
 
 基于 Springboot 的多数据源支持。
 
+Springboot 官方仅支持单数据源，当然这也是 Springboot 建议的最佳实践；但在实际使用中，因为各种原因，采用 Springboot 构建的微服务还是有多数据源的需求，所以本工具就是给 Springboot 使用者提供一个方便使用的多数据源组件。
+
 ## 2. User Guide - 使用指南
 
 ### Get Package - 获取安装包
@@ -42,7 +44,7 @@ If you can not find the artifact from your private maven repository, please chec
 
 ### Config application.yml or application.properties - springboot 配置文件
 
-配置项含义说明
+配置项含义说明：
 
 | Config Item (配置项) | Description (描述) |
 | ------------------- | ------------------|
@@ -51,6 +53,7 @@ If you can not find the artifact from your private maven repository, please chec
 | spring.mds.enabled   | Whether enabled - 是否开启，默认 true 开启。 |
 | spring.mds.datasources[].name   | Name of datasource - 指定数据源名称。 |
 
+spring.mds.datasources[] 所支持的配置项与 spring.datasource 所支持的保持一致。若要查看完整的配置项含义，请析 spring boot 官方提供的文档。
 
 Config Example - 配置示例：
 - application.yml
@@ -63,6 +66,9 @@ Config Example - 配置示例：
       password: "mysql"
       driver-class-name: "com.mysql.jdbc.Driver"
       validation-query: "select 1 from dual"
+      tomcat:
+        maxActive: 105
+        testWhileIdle: true
     mds:
       enabled: true
       datasources:
@@ -139,3 +145,17 @@ If the default DataSource `mds` is used, nothing need to do for original code. I
         return testDao.test();
     }
     ```
+
+
+## 3. Notice - 注意事项
+
+- 支持 spring boot 版本：1.4.4.RELEASE + 。
+- 建议去掉 spring boot 自带的数据源自动加载：`@EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })` ，不排除此加载，程序加载并不会引发任何错误，只不过会占用一些系统资源。
+  ``` JAVA
+    @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
+    public class App {
+      public static void main(String[] args) {
+          SpringApplication.run(App.class, args);
+      }
+    }
+  ```

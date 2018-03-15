@@ -37,6 +37,12 @@ public class SingleDataSourceProperties implements BeanClassLoaderAware, Environ
 
     private Properties tomcat;
 
+    private Properties hikari;
+
+    private Properties dbcp;
+
+    private Properties dbcp2;
+
     // =========== below content is copied from Class DataSourceProperties,
     // == not extends from DataSourceProperties, because of avoid to create 2
     // DataSourceProperties
