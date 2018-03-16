@@ -159,3 +159,9 @@ If the default DataSource `mds` is used, nothing need to do for original code. I
       }
     }
   ```
+
+## 4. ChangeLog - 更新记录
+
+- **0.1.2** [2018-03-16]
+    - 对创建数据源部分代码进行了重构优化。
+    - 修复 Tomcat 、DBCP 等数据源实现工具配置参数无效问题。
