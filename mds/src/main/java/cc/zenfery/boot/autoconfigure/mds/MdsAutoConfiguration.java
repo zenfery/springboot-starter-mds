@@ -66,33 +66,6 @@ public class MdsAutoConfiguration {
 
         Map<Object, Object> dataSourceMap = null;
 
-        // => fetch the default DataSource from Spring Context
-        /*
-         * Map<String, DataSource> dataSourcesInIOC =
-         * BeanFactoryUtils.beansOfTypeIncludingAncestors(applicationContext,
-         * DataSource.class); if (dataSourcesInIOC != null &&
-         * dataSourcesInIOC.size() > 1) { String errorMsg =
-         * "config for [spring.datasource] is not only one.";
-         * log.error(errorMsg); throw new RuntimeException(errorMsg); } if
-         * (dataSourcesInIOC != null && dataSourcesInIOC.size() == 1) { if
-         * (dataSourceMap == null) { dataSourceMap = new HashMap<Object,
-         * Object>(); } defaultDataSource =
-         * dataSourcesInIOC.get(dataSourceProperties.getName());
-         * dataSourceMap.put(dataSourceProperties.getName(), defaultDataSource);
-         * } else { mdsProperties.getDatasources().add(dataSourceProperties); }
-         */
-        /*
-         * DataSource dataSourceInIOC = null; if
-         * (this.applicationContext.getBeanNamesForType(DataSource.class, false,
-         * false).length > 0) { dataSourceInIOC =
-         * this.applicationContext.getBean(DataSource.class); } else { log.warn(
-         * "!!! The DataSource of prefix(spring.datasource) is not given..."); }
-         * 
-         * if (dataSourceInIOC != null) { if (dataSourceMap == null) {
-         * dataSourceMap = new HashMap<Object, Object>(); } defaultDataSource =
-         * dataSourceInIOC; dataSourceMap.put(dataSourceProperties.getName(),
-         * defaultDataSource); }
-         */
         // => Create default DataSource
         if (MdsConfigurationUtils.isAvailable(singleDataSourceProperties)) {
             defaultDataSource = MdsConfigurationUtils.crateDataSource(singleDataSourceProperties);
